@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SensorDataQuality</string>
+    <string name="app_description">This software measures the quality of sensor data(AutoSense and Microsoft Band) and  push the result to DataKit</string>
+    <string name="version">""</string>
+    <string name="url_release">https://github.com/MD2Korg/mCerebrum-SensorDataQuality/releases</string>
+    <string name="url_sourcecode">https://github.com/MD2Korg/mCerebrum-SensorDataQuality</string>
+
+</resources>
