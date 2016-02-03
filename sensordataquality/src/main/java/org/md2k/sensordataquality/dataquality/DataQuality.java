@@ -4,8 +4,8 @@ import android.content.Context;
 
 import org.md2k.datakitapi.DataKitAPI;
 import org.md2k.datakitapi.source.datasource.DataSource;
-import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
+import org.md2k.datakitapi.status.Status;
 
 import java.util.ArrayList;
 
@@ -45,4 +45,5 @@ public abstract class DataQuality {
         dataKitAPI=DataKitAPI.getInstance(context);
         this.dataSource=dataSource;
     }
+    public abstract Status getStatus();
 }
