@@ -8,6 +8,7 @@ import org.md2k.datakitapi.messagehandler.OnReceiveListener;
 import org.md2k.datakitapi.source.datasource.DataSource;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
+import org.md2k.sensordataquality.Status;
 import org.md2k.sensordataquality.dataquality.DataQuality;
 import org.md2k.sensordataquality.dataquality.autosense.respiration.RIPQualityCalculation;
 
@@ -54,7 +55,8 @@ public class DataQualityECG extends DataQuality {
     public void subscribe() throws Exception {
         ArrayList<DataSourceClient> dataSourceClientArrayList = dataKitAPI.find(new DataSourceBuilder(dataSource));
         if(dataSourceClientArrayList.size()!=0) throw new Exception("ERROR: No/Multiple datasource (AutoSense Chest-ECG)");
-        dataKitAPI.subscribe(dataSourceClientArrayList.get(0), new OnReceiveListener() {
+        dataSourceClient=dataSourceClientArrayList.get(0);
+        dataKitAPI.subscribe(dataSourceClient, new OnReceiveListener() {
             @Override
             public void onReceived(DataType dataType) {
                 DataTypeInt dataTypeInt = (DataTypeInt) dataType;
@@ -65,7 +67,12 @@ public class DataQualityECG extends DataQuality {
 
     @Override
     public void unsubscribe() {
-
-
+        dataKitAPI.unregister(dataSourceClient);
     }
+    @Override
+    public Status getStatus() {
+        if(samples.size()==0) return new Status(Status.OFF);
+        return new Status(Status.GOOD);
+    }
+
 }

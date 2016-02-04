@@ -8,7 +8,9 @@ import org.md2k.datakitapi.messagehandler.OnReceiveListener;
 import org.md2k.datakitapi.source.datasource.DataSource;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
+import org.md2k.sensordataquality.Status;
 import org.md2k.sensordataquality.dataquality.DataQuality;
+import org.md2k.utilities.Report.Log;
 
 import java.util.ArrayList;
 
@@ -39,12 +41,24 @@ import java.util.ArrayList;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public class DataQualityMicrosoftBand extends DataQuality {
+    private static final String TAG = DataQualityMicrosoftBand.class.getSimpleName();
     ArrayList<Integer> samples;
+
 
     public DataQualityMicrosoftBand(Context context, DataSource dataSource){
         super(context, dataSource);
         samples=new ArrayList<>();
     }
+
+    @Override
+    public Status getStatus() {
+        int size=samples.size();
+        Log.d(TAG, "MSBand ... samples=" + size);
+        samples.clear();
+        if(size==0) return new Status(Status.OFF);
+        return new Status(Status.GOOD);
+    }
+
     @Override
     public void subscribe() throws Exception {
         ArrayList<DataSourceClient> dataSourceClientArrayList = dataKitAPI.find(new DataSourceBuilder(dataSource));
@@ -56,11 +70,10 @@ public class DataQualityMicrosoftBand extends DataQuality {
                 samples.add(dataTypeInt.getSample());
             }
         });
-
     }
 
     @Override
     public void unsubscribe() {
-
+        dataKitAPI.unregister(dataSourceClient);
     }
 }

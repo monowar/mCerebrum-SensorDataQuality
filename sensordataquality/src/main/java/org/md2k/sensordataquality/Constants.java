@@ -29,7 +29,7 @@ import android.os.Environment;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public class Constants {
-    public static final String SERVICE_NAME = "org.md2k.streamprocessor.ServiceSensorDataQuality";
+    public static final String SERVICE_NAME = "org.md2k.sensordataquality.ServiceSensorDataQuality";
     public static final String CONFIG_DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mCerebrum/org.md2k.sensordataquality/";
     public static final String DEFAULT_CONFIG_FILENAME = "default_config.json";
 

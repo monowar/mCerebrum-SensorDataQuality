@@ -12,6 +12,8 @@ import org.md2k.datakitapi.status.Status;
 import org.md2k.sensordataquality.dataquality.DataQualityManager;
 import org.md2k.utilities.Report.Log;
 
+import java.io.FileNotFoundException;
+
 /**
  * Copyright (c) 2015, The University of Memphis, MD2K Center
  * - Syed Monowar Hossain <monowar.hossain@gmail.com>
@@ -47,6 +49,13 @@ public class ServiceSensorDataQuality extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
+        try {
+            dataQualityManager = new DataQualityManager(ServiceSensorDataQuality.this);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(ServiceSensorDataQuality.this, "SensorDataQuality Stopped. Error: Configuration file not available", Toast.LENGTH_LONG).show();
+            stopSelf();
+            return;
+        }
         connectDataKit();
     }
 
@@ -56,10 +65,13 @@ public class ServiceSensorDataQuality extends Service {
         dataKitAPI = DataKitAPI.getInstance(getApplicationContext());
         dataKitAPI.connect(new OnConnectionListener() {
             @Override
-            public void onConnected() throws Exception {
+            public void onConnected() {
                 Log.d(TAG, "onConnected()...");
-                dataQualityManager = new DataQualityManager(ServiceSensorDataQuality.this);
-                dataQualityManager.start();
+                try {
+                    dataQualityManager.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }, new OnExceptionListener() {
             @Override

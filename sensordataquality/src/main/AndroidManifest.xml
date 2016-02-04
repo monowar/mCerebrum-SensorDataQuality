@@ -23,11 +23,11 @@
         </activity>
 
         <service
-            android:name=".ServiceStreamProcessor"
+            android:name=".ServiceSensorDataQuality"
             android:enabled="true"
             android:exported="true" />
         <activity
-            android:name=".ActivityStreamProcessorSettings"
+            android:name=".ActivitySettings"
             android:enabled="true"
             android:exported="true"
             android:screenOrientation="portrait"

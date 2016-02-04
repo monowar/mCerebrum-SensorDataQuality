@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import org.md2k.datakitapi.time.DateTime;
 import org.md2k.utilities.Apps;
+import org.md2k.utilities.Report.Log;
 import org.md2k.utilities.UI.ActivityAbout;
 import org.md2k.utilities.UI.ActivityCopyright;
 
@@ -57,8 +58,10 @@ public class ActivityMain extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ServiceSensorDataQuality.class);
                 if (Apps.isServiceRunning(getBaseContext(), Constants.SERVICE_NAME)) {
+                    Log.d(TAG, "service running...");
                     stopService(intent);
                 }else{
+                    Log.d(TAG, "service not running...");
                     startService(intent);
                 }
             }

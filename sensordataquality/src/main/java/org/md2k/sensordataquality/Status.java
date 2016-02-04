@@ -1,13 +1,6 @@
-package org.md2k.sensordataquality.dataquality;
+package org.md2k.sensordataquality;
 
-import android.content.Context;
-
-import org.md2k.datakitapi.DataKitAPI;
-import org.md2k.datakitapi.source.datasource.DataSource;
-import org.md2k.datakitapi.source.datasource.DataSourceClient;
-import org.md2k.sensordataquality.Status;
-
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Copyright (c) 2015, The University of Memphis, MD2K Center
@@ -35,15 +28,41 @@ import java.util.ArrayList;
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-public abstract class DataQuality {
-    public DataKitAPI dataKitAPI;
-    public DataSourceClient dataSourceClient;
-    public DataSource dataSource;
-    public abstract void subscribe() throws Exception;
-    public abstract void unsubscribe();
-    public DataQuality(Context context, DataSource dataSource){
-        dataKitAPI=DataKitAPI.getInstance(context);
-        this.dataSource=dataSource;
+public class Status implements Serializable{
+    int statusCode;
+    String statusMessage;
+
+    public static final int GOOD = 0;
+    public static final int LOOSE = 1;
+    public static final int NOISE = 2;
+    public static final int OFF = 3;
+    public static final int NOT_WORN = 4;
+    public static final String[] message = new String[]{
+            "Status: Good",
+            "Error: Loose",
+            "ERROR: Noise",
+            "Error: Off",
+    };
+
+    public Status(int statusCode, String statusMessage) {
+        this.statusCode = statusCode;
+        this.statusMessage = statusMessage;
     }
-    public abstract Status getStatus();
+
+    public Status(int statusCode) {
+        this.statusCode = statusCode;
+        this.statusMessage = message[statusCode];
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public Status getStatus() {
+        return this;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
 }

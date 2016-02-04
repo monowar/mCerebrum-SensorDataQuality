@@ -8,6 +8,7 @@ import org.md2k.datakitapi.messagehandler.OnReceiveListener;
 import org.md2k.datakitapi.source.datasource.DataSource;
 import org.md2k.datakitapi.source.datasource.DataSourceBuilder;
 import org.md2k.datakitapi.source.datasource.DataSourceClient;
+import org.md2k.sensordataquality.Status;
 import org.md2k.sensordataquality.dataquality.DataQuality;
 
 import java.util.ArrayList;
@@ -62,7 +63,11 @@ public class DataQualityRIP extends DataQuality {
 
     @Override
     public void unsubscribe() {
-
+        dataKitAPI.unregister(dataSourceClient);
     }
-
+    @Override
+    public Status getStatus() {
+        if(samples.size()==0) return new Status(Status.OFF);
+        return new Status(Status.GOOD);
+    }
 }
